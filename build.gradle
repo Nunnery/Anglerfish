@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'license'
+
+defaultTasks 'licenseFormat', 'check', 'build'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+group = 'me.topplethenun'
+archivesBaseName = 'anglerfish'
+version = '1.0.0-SNAPSHOT'
+
+ext.projectName = 'SpongeAPI'
+ext.inceptionYear = '2014'
+ext.packaging = 'jar'
+ext.url = 'http://spongepowered.org'
+ext.description = 'SpongeAPI'
+ext.organization = 'SpongePowered'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+processResources {
+    from 'LICENSE.txt'
+}
+
+license {
+    ext.name = project.name
+    ext.organization = project.organization
+    ext.url = project.url
+    ext.year = project.inceptionYear
+    exclude "**/*.info"
+    exclude "assets/**"
+    header file('HEADER.txt')
+    sourceSets = project.sourceSets
+    ignoreFailures false
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}
